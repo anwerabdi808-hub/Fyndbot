@@ -1,0 +1,33 @@
+name: fyndbot
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # var 10:e minut (GitHub kan försena)
+  workflow_dispatch:          # gör att du kan starta manuellt för test
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests beautifulsoup4 zeep anthropic
+
+      # Sparar listan över redan sedda annonser mellan körningar
+      - uses: actions/cache@v4
+        with:
+          path: seen.db
+          key: seen-${{ github.run_id }}
+          restore-keys: seen-
+
+      - run: python fyndbot.py
+        env:
+          RUN_ONCE: "1"
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TRADERA_APP_ID: ${{ secrets.TRADERA_APP_ID }}
+          TRADERA_APP_KEY: ${{ secrets.TRADERA_APP_KEY }}
