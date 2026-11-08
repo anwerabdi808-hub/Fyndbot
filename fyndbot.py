@@ -31,10 +31,10 @@ SEARCHES = [
     {"q": "ps5 kontroll", "max_price": 300, "avoid": ["defekt", "trasig", "drift"]},
 ]
 
-MIN_PROFIT = 150
+MIN_PROFIT = 0
 SHIPPING_COST = 70
 RESALE_FACTOR = 0.85
-MIN_COMPARABLES = 6
+MIN_COMPARABLES = 3
 INTERVAL_SECONDS = 600
 
 IMAGE_MODEL = "claude-haiku-5-5"  # billig modell räcker för bildkoll
